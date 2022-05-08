@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid";
 const ActivityForm = () => {
     const history = useHistory();
     const { activityStore } = useStore();
-    const { loadingInitial, createActivity, updateActivity, loading, loadActivity } = activityStore;
+    const { loadingInitial, createActivity, updateActivity, loading, loadActivity, setLoadingInitial } = activityStore;
     const { id } = useParams<{ id: string }>();
 
     const [activity, setActivity] = useState({
@@ -24,7 +24,8 @@ const ActivityForm = () => {
 
     useEffect(() => {
         if (id) loadActivity(id).then((a) => setActivity(a!));
-    }, [id, loadActivity]);
+        else setLoadingInitial(false);
+    }, [id, loadActivity, setLoadingInitial]);
 
     function handleSubmit() {
         if (activity.id.length === 0) {
