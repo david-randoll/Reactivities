@@ -17,7 +17,7 @@ function App() {
 
     return (
         <>
-            <ToastContainer position="bottom-center" hideProgressBar />
+            <ToastContainer position="bottom-center" />
             <Route exact path="/" component={HomePage} />
             <Route
                 path={"/(.+)"}

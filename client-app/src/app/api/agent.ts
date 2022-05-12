@@ -12,10 +12,11 @@ axios.defaults.baseURL = "http://localhost:5000/api";
 
 axios.interceptors.response.use(
     async (response) => {
-        await sleep(1000);
+        // await sleep(1000);
         return response;
     },
     (error: any) => {
+        console.log(error);
         const { data, status, config } = error.response;
         switch (status) {
             case 400:
@@ -45,6 +46,8 @@ axios.interceptors.response.use(
                 history.push("/server-error");
                 toast.error("Server Error");
                 break;
+            default:
+                toast.error("Unknown Error");
         }
         return Promise.reject(error);
     }
