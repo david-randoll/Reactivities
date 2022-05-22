@@ -17,7 +17,7 @@ const ActivityDetails = () => {
     useEffect(() => {
         if (id) loadActivity(id);
         return () => clearSelectedActivity();
-    }, [id, loadActivity]);
+    }, [id, loadActivity, clearSelectedActivity]);
 
     if (loadingInitial || !activity) return <Loading />;
 

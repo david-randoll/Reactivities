@@ -1,10 +1,11 @@
-import { Photo, Profile } from "./../models/profile";
+import { Photo, Profile, UserActivity } from "./../models/profile";
 import { User, UserFormValues } from "./../models/user";
 import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
 import { Activity, ActivityFormValues } from "../models/activity";
 import { store } from "../stores/store";
+import { PaginatedResult } from "../models/pagination";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => setTimeout(resolve, delay));
@@ -21,6 +22,11 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
     async (response) => {
         await sleep(1000);
+        const pagination = response.headers["pagination"];
+        if (pagination) {
+            response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+            return response as AxiosResponse<PaginatedResult<any>>;
+        }
         return response;
     },
     (error: any) => {
@@ -64,14 +70,14 @@ axios.interceptors.response.use(
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+    get: <T>(url: string, config: any = undefined) => axios.get<T>(url, config).then(responseBody),
     post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
     put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
 const Activities = {
-    list: () => requests.get<Activity[]>("/activities"),
+    list: (params: URLSearchParams) => requests.get<PaginatedResult<Activity[]>>("/activities", { params }),
     details: (id: string) => requests.get<Activity>(`/activities/${id}`),
     create: (activity: ActivityFormValues) => requests.post<void>("/activities", activity),
     update: (activity: ActivityFormValues) => requests.put<void>(`/activities/${activity.id}`, activity),
@@ -99,6 +105,8 @@ const Profiles = {
     deletePhoto: (id: string) => requests.del<void>(`/photos/${id}`),
     updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
     listFollowings: (username: string, predicate: string) => requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
+    listActivities: (username: string, predicate: string) =>
+        requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`),
 };
 
 const agent = {
