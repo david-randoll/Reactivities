@@ -94,7 +94,6 @@ const Account = {
 const Profiles = {
     get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
     uploadPhoto: (file: Blob) => {
-        console.log(file);
         const formData = new FormData();
         formData.append("File", file);
         return axios.post<Photo>("photos", formData, {
