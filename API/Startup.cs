@@ -46,12 +46,18 @@ namespace API
             app.UseXfo(opt => opt.Deny());
             app.UseCsp(opt => opt
                 .BlockAllMixedContent()
-                .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", "https://cdn.jsdelivr.net"))
+                .StyleSources(s => s.Self()
+                    .CustomSources(
+                        "https://fonts.googleapis.com",
+                        "https://cdn.jsdelivr.net",
+                        "sha256-wkAU1AW/h8YFx0XlzvpTllAKnFEO2tw8aKErs5a26LY="
+                    )
+                )
                 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
                 .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "blob:", "data:"))
-                .ScriptSources(s => s.Self())
+                .ScriptSources(s => s.Self().CustomSources("sha256-Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=", "sha256-PfI8hHm49boscgavNiOm75C7sPZ+nfvTLsSaEaDMYHM="))
             );
 
             if (env.IsDevelopment())
@@ -69,8 +75,7 @@ namespace API
                 });
             }
 
-            // app.UseHttpsRedirection();
-
+            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseDefaultFiles();
             app.UseStaticFiles();
