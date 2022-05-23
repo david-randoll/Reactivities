@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/facebook-js-sdk": "^3.3.5",
     "@types/history": "^4.7.9",
     "@types/react-calendar": "^3.5.0",
     "@types/react-datepicker": "^4.4.1",
