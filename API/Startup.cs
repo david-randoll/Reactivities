@@ -50,14 +50,30 @@ namespace API
                     .CustomSources(
                         "https://fonts.googleapis.com",
                         "https://cdn.jsdelivr.net",
-                        "sha256-wkAU1AW/h8YFx0XlzvpTllAKnFEO2tw8aKErs5a26LY="
+                        "sha256-wkAU1AW/h8YFx0XlzvpTllAKnFEO2tw8aKErs5a26LY=",
+                        "sha256-yChqzBduCCi4o4xdbXRXh4U/t1rP4UUUMJt+rB+ylUI="
                     )
                 )
                 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
-                .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "blob:", "data:"))
-                .ScriptSources(s => s.Self().CustomSources("sha256-Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=", "sha256-PfI8hHm49boscgavNiOm75C7sPZ+nfvTLsSaEaDMYHM="))
+                .ImageSources(s => s.Self()
+                    .CustomSources(
+                        "https://res.cloudinary.com",
+                        "blob:",
+                        "data:",
+                        "https://www.facebook.com",
+                        "https://platform-lookaside.fbsbx.com"
+                    )
+                )
+                .ScriptSources(s => s.Self()
+                    .CustomSources(
+                        "sha256-Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg=",
+                        "sha256-PfI8hHm49boscgavNiOm75C7sPZ+nfvTLsSaEaDMYHM=",
+                        "sha256-CHvf6BmgvUoc/Xx2J5HpetzKVbnBNuXB/fe+R06Z9a0=",
+                        "https://connect.facebook.net"
+                    )
+                )
             );
 
             if (env.IsDevelopment())
