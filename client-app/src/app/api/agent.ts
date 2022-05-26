@@ -31,7 +31,7 @@ axios.interceptors.response.use(
     },
     (error: any) => {
         console.log(error);
-        const { data, status, config } = error.response;
+        const { data, status, config, headers } = error.response;
         switch (status) {
             case 400:
                 if (typeof data === "string") toast.error(data);
@@ -49,7 +49,12 @@ axios.interceptors.response.use(
                 }
                 break;
             case 401:
-                toast.error("Unauthorized");
+                if (headers["www-authenticate"].startsWith('Bearer error="invalid_token"')) {
+                    store.userStore.logout();
+                    toast.error("Session expired, please login again");
+                } else {
+                    toast.error("Unable to authenticate, please login again");
+                }
                 break;
             case 404:
                 toast.error("Not Found");
@@ -90,6 +95,7 @@ const Account = {
     login: (user: UserFormValues) => requests.post<User>("/account/login", user),
     register: (user: UserFormValues) => requests.post<User>("/account/register", user),
     fbLogin: (accessToken: string) => requests.post<User>(`/account/fbLogin?accessToken=${accessToken}`, {}),
+    refreshToken: () => requests.post<User>("/account/refreshToken", {}),
 };
 
 const Profiles = {

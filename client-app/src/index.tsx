@@ -14,14 +14,14 @@ import ScrollToTop from "./app/layout/ScrollToTop";
 export const history = createBrowserHistory();
 
 ReactDOM.render(
-    <React.StrictMode>
-        <StoreContext.Provider value={store}>
-            <Router history={history}>
-                <ScrollToTop />
-                <App />
-            </Router>
-        </StoreContext.Provider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <StoreContext.Provider value={store}>
+        <Router history={history}>
+            <ScrollToTop />
+            <App />
+        </Router>
+    </StoreContext.Provider>,
+    // </React.StrictMode>,
     document.getElementById("root")
 );
 

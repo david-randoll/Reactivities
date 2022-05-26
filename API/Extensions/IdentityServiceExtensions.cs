@@ -32,6 +32,8 @@ namespace API.Extensions
                     IssuerSigningKey = key,
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero // token expires immediately based on time set in TokenService.cs
                 };
                 //for signalR
                 opt.Events = new JwtBearerEvents
