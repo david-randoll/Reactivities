@@ -7,6 +7,7 @@ using Persistence;
 using Application.Interfaces;
 using Infrastructure.Security;
 using Infrastructure.Photos;
+using Infrastructure.Email;
 
 namespace API.Extensions
 {
@@ -73,6 +74,7 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IEmailSender, MockEmailSender>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
             services.AddSignalR();
 
